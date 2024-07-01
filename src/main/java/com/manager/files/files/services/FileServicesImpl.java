@@ -12,6 +12,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,6 +35,34 @@ public class FileServicesImpl implements FileServices {
                 .data(file.getBytes())
                 .url("direccion")
                 .build();
+        return fileRepository.save(fileEntity);
+    }
+
+    @Override
+    public FileEntity picture(MultipartFile file) throws IOException {
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        byte[] bytes = file.getBytes();
+        String type = file.getContentType();
+        String carpeta = "src/main/resources/images";
+        File folder = new File(carpeta);
+        if (!folder.exists()) {
+            boolean a = folder.mkdir();
+            System.out.println("folder no existe");
+        }else{
+            System.out.println("folder Existe");
+        }
+        Path path = Paths.get(carpeta + "/" + fileName);
+        Files.write(path,bytes);
+
+        System.out.println("filename " + fileName);
+        FileEntity fileEntity = FileEntity.builder()
+                .name(fileName)
+                .type(file.getContentType())
+                .data(file.getBytes())
+                .url(carpeta + "/" + fileName)
+                .build();
+
         return fileRepository.save(fileEntity);
     }
 

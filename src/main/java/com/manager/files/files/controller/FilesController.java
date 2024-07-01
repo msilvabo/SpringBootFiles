@@ -28,6 +28,11 @@ public class FilesController {
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         fileServices.store(file);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Achivo subido exitosamente"));
+
+    }@PostMapping("/picture")
+    public ResponseEntity<ResponseMessage> uploadUpdateFile(@RequestParam("file") MultipartFile file) throws IOException {
+        fileServices.picture(file);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Achivo subido exitosamente"));
     }
 
     @GetMapping("/files/{id}")

@@ -14,6 +14,9 @@ public interface FileServices {
     //almacen archivos
     FileEntity store(MultipartFile file) throws IOException;
 
+    //almacena y actualiza
+    FileEntity picture(MultipartFile file) throws IOException;
+
     //descargar archivos
     Optional<FileEntity> getFile(UUID id) throws FileNotFoundException;
 
